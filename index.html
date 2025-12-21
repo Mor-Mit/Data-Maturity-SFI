@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אבחון בשלות דאטה - רשות מקומית</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2E3192;
+            --secondary: #00B4D8;
+            --accent: #90E0EF;
+            --success: #52B788;
+            --warning: #F77F00;
+            --danger: #D62828;
+            --dark: #0D1B2A;
+            --gray: #415A77;
+            --light-gray: #E0E1DD;
+            --white: #FFFFFF;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            animation: slideDown 0.6s ease;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: var(--light-gray);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(46, 49, 146, 0.3);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Section Card */
+        .section-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent);
+            position: relative;
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border-radius: 50%;
+            margin-left: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Questions */
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 15px;
+            border-right: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .hint {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: var(--gray);
+            border-right: 3px solid var(--secondary);
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Checkbox Questions */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .checkbox-container:hover {
+            background: var(--accent);
+            background: linear-gradient(135deg, rgba(144, 224, 239, 0.2), rgba(0, 180, 216, 0.1));
+        }
+
+        .checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--secondary);
+            border-radius: 8px;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .checkbox.checked {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            animation: checkBounce 0.4s ease;
+        }
+
+        @keyframes checkBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: var(--white);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkbox-label {
+            margin-right: 10px;
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        /* Scale Questions */
+        .scale-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .scale-button {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--light-gray);
+            background: var(--white);
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scale-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+
+        .scale-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            border-color: var(--secondary);
+        }
+
+        .scale-button.selected {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border-color: var(--primary);
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(46, 49, 146, 0.3);
+        }
+
+        .scale-button.selected::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Radio Questions */
+        .radio-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            background: linear-gradient(135deg, rgba(144, 224, 239, 0.1), rgba(0, 180, 216, 0.05));
+            border-color: var(--secondary);
+            transform: translateX(-5px);
+        }
+
+        .radio-option.selected {
+            background: linear-gradient(135deg, rgba(46, 49, 146, 0.1), rgba(0, 180, 216, 0.1));
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(46, 49, 146, 0.2);
+        }
+
+        .radio-circle {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--gray);
+            border-radius: 50%;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option.selected .radio-circle {
+            border-color: var(--primary);
+        }
+
+        .radio-option.selected .radio-circle::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Results Section */
+        .results-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            color: var(--white);
+            box-shadow: 0 15px 40px rgba(46, 49, 146, 0.3);
+            display: none;
+            animation: bounceIn 0.8s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .results-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .score-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .total-score {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .score-label {
+            font-size: 1.3rem;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .maturity-level {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .level-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* Buttons */
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%) rotate(45deg);
+            transition: width 0.6s ease;
+        }
+
+        .btn:hover::before {
+            width: 300%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(46, 49, 146, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 49, 146, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #52B788);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(82, 183, 136, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(82, 183, 136, 0.4);
+        }
+
+        /* Categories Breakdown */
+        .categories-breakdown {
+            margin-top: 30px;
+        }
+
+        .category-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .category-score {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .category-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .category-fill {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* Start Screen */
+        .start-screen {
+            text-align: center;
+            padding: 60px 40px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            animation: zoomIn 0.6s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .start-screen h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .start-screen p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .scale-container {
+                justify-content: space-between;
+            }
+
+            .scale-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+
+            .total-score {
+                font-size: 3rem;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .btn, .button-container {
+                display: none;
+            }
+
+            .section-card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .question:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 כלי אבחון בשלות דאטה ארגונית</h1>
+            <p>כלי דיגיטלי לבדיקת רמת הבשלות בניהול וניצול נתונים ברשות המקומית</p>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="start-screen">
+            <h2>ברוכים הבאים לכלי האבחון</h2>
+            <p>כלי זה יעזור לכם להעריך את רמת הבשלות של הרשות בכל הקשור לניהול וניצול נתונים.<br>
+            השאלון כולל מספר קטגוריות ולוקח כ-10 דקות למילוי.</p>
+            <button class="btn btn-primary" onclick="startAssessment()">
+                <span class="icon">🚀</span>
+                התחל אבחון
+            </button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progressContainer" class="progress-container" style="display: none;">
+            <div class="progress-info">
+                <span style="font-weight: 600;">התקדמות במילוי</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questionsContainer"></div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="results-section">
+            <h2 class="results-title">📊 תוצאות האבחון</h2>
+            
+            <div class="score-container">
+                <div id="totalScore" class="total-score">0</div>
+                <div class="score-label">ציון כולל</div>
+            </div>
+
+            <div class="maturity-level">
+                <div id="levelBadge" class="level-badge">רמת בשלות</div>
+                <p id="levelDescription" class="level-description"></p>
+            </div>
+
+            <div class="categories-breakdown">
+                <h3 style="margin-bottom: 20px; font-size: 1.5rem;">פירוט לפי קטגוריות:</h3>
+                <div id="categoriesResults"></div>
+            </div>
+
+            <div class="button-container">
+                <button class="btn btn-secondary" onclick="printResults()">
+                    <span class="icon">🖨️</span>
+                    הדפס תוצאות
+                </button>
+                <button class="btn btn-success" onclick="exportResults()">
+                    <span class="icon">📥</span>
+                    ייצא לאקסל
+                </button>
+                <button class="btn btn-primary" onclick="restartAssessment()">
+                    <span class="icon">🔄</span>
+                    התחל מחדש
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div id="navigationButtons" class="button-container" style="display: none;">
+            <button id="prevBtn" class="btn btn-secondary" onclick="previousSection()">
+                <span class="icon">→</span>
+                חזור
+            </button>
+            <button id="nextBtn" class="btn btn-primary" onclick="nextSection()">
+                המשך
+                <span class="icon">←</span>
+            </button>
+            <button id="finishBtn" class="btn btn-success" onclick="showResults()" style="display: none;">
+                <span class="icon">✅</span>
+                סיים וצפה בתוצאות
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Assessment Data Structure - עם השינויים שלך
+        const assessmentData = [
+            {
+                title: "מטרות, יעדים ושאלות",
+                questions: [
+                    {
+                        text: "האם יש לרשות אסטרטגיה (תיאוריית שינוי) סדורה?",
+                        type: "section",
+                        subQuestions: [
+                            {
+                                text: "מטרות הרשות",
+                                type: "checkbox",
+                                hint: "מטרות הן הדבר שהתכנית מבקשת להשיג - החזון הגדול",
+                                label: "סמן אם קיים"
+                            },
+                            {
+                                text: "התוצאות שהיא שואפת להשיג",
+                                type: "checkbox",
+                                hint: "התוצאות הן השינוי בפועל בקרב האוכלוסיה",
+                                label: "סמן אם קיים"
+                            },
+                            {
+                                text: "הפעולות שנוקטים והאופן שבו יביאו להשגת התוצאות",
+                                type: "checkbox",
+                                hint: "הפעולות הן הדרכים שבהן תפעלו כדי להשיג את התוצאות",
+                                label: "סמן אם קיים"
+                            }
+                        ]
+                    },
+                    {
+                        text: "באיזו מידה (1= כלל לא, 5= במידה רבה מאוד) אתם משתמשים בנתונים כדי:",
+                        type: "section",
+                        subQuestions: [
+                            {
+                                text: "להבין את הבעיה איתה מבקשים להתמודד?",
+                                type: "scale",
+                                hint: "כדאי לבחון נתונים באשר להיקף הבעיה ומאפייניה"
+                            },
+                            {
+                                text: "ללמוד על התושבים והסביבה ברשות?",
+                                type: "scale",
+                                hint: "נתונים יעזרו לכם להבין טוב יותר את צרכי התושבים"
+                            },
+                            {
+                                text: "להחליט מה הן הפעולות שהרשות תבצע וכיצד נכון לבצען?",
+                                type: "scale"
+                            },
+                            {
+                                text: "למדוד תוצאות/אימפקט?",
+                                type: "scale"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "כלים ותשתיות",
+                questions: [
+                    {
+                        text: "איך נאספים הנתונים בארגון?",
+                        type: "radio",
+                        options: [
+                            "בעיקר במסמכי נייר/וורד",
+                            "בעיקר בטפסים מקוונים וקבצי אקסל",
+                            "בעיקר באמצעות מערכת/ות מידע ייעודית (למשל CRM)"
+                        ]
+                    },
+                    {
+                        text: "איפה נשמרים ומנוהלים רוב הנתונים?",
+                        type: "radio",
+                        options: [
+                            "בתיקיות האישיות/במחשבים של העובדים",
+                            "בתיקיות משותפות",
+                            "במאגר נתונים ייעודי/מערכות מידע"
+                        ]
+                    },
+                    {
+                        text: "באיזו מידה מערכות המידע שלכם מתאימות לצרכי הרשות?",
+                        type: "scale",
+                        hint: "1 = כלל לא מתאימות, 5 = מתאימות מאוד"
+                    },
+                    {
+                        text: "באיזו מידה יש ריבוי מערכות וקושי בסנכרון נתונים?",
+                        type: "scale",
+                        hint: "1 = אין בעיה כלל, 5 = בעיה חמורה"
+                    },
+                    {
+                        text: "כיצד אתם מפיקים ומנגישים נתונים ודוחות?",
+                        type: "radio",
+                        options: [
+                            "אנחנו לא מפיקים דוחות",
+                            "במסמכים ומצגות",
+                            "בדוחות מובנים המבוססים על אקסל או גוגל שיטס",
+                            "במערכת BI או דאשבורדים אינטראקטיביים"
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "איכות הנתונים",
+                questions: [
+                    {
+                        text: "עד כמה (1=כלל לא, 5=במידה רבה מאוד) הנתונים שיש לכם:",
+                        type: "section",
+                        subQuestions: [
+                            {
+                                text: "מדויקים ואמינים?",
+                                type: "scale"
+                            },
+                            {
+                                text: "עדכניים?",
+                                type: "scale"
+                            },
+                            {
+                                text: "שלמים (מכסים את כל מה שצריך)?",
+                                type: "scale"
+                            },
+                            {
+                                text: "נגישים וזמינים למי שצריך אותם?",
+                                type: "scale"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "תרבות ארגונית",
+                questions: [
+                    {
+                        text: "עד כמה יש בארגון תרבות של קבלת החלטות מבוססת נתונים?",
+                        type: "scale",
+                        hint: "1 = כלל לא, 5 = תרבות חזקה מאוד"
+                    },
+                    {
+                        text: "עד כמה העובדים מיומנים בעבודה עם נתונים?",
+                        type: "scale"
+                    },
+                    {
+                        text: "האם יש אחראי/צוות ייעודי לנושא הנתונים ברשות?",
+                        type: "checkbox",
+                        label: "סמן אם כן"
+                    },
+                    {
+                        text: "עד כמה ההנהלה תומכת ומעודדת שימוש בנתונים?",
+                        type: "scale"
+                    }
+                ]
+            },
+            {
+                title: "פרטיות ואבטחה",
+                questions: [
+                    {
+                        text: "האם קיימת מדיניות ברורה לאבטחת מידע ופרטיות?",
+                        type: "checkbox",
+                        label: "סמן אם כן"
+                    },
+                    {
+                        text: "עד כמה העובדים מכירים ופועלים לפי נהלי אבטחת המידע?",
+                        type: "scale"
+                    },
+                    {
+                        text: "האם מתבצעות ביקורות תקופתיות על אבטחת המידע?",
+                        type: "checkbox",
+                        label: "סמן אם כן"
+                    }
+                ]
+            },
+            {
+                title: "שיתופי פעולה",
+                questions: [
+                    {
+                        text: "עד כמה יש שיתוף נתונים בין מחלקות בתוך הרשות?",
+                        type: "scale"
+                    },
+                    {
+                        text: "האם יש שיתופי פעולה עם גורמים חיצוניים בנושא נתונים?",
+                        type: "checkbox",
+                        hint: "למשל: ממשלה, רשויות אחרות, אקדמיה, מגזר שלישי",
+                        label: "סמן אם כן"
+                    },
+                    {
+                        text: "עד כמה הנתונים שקופים ונגישים לתושבים?",
+                        type: "scale"
+                    }
+                ]
+            }
+        ];
+
+        // State Management
+        let currentSectionIndex = 0;
+        let answers = {};
+        let isAssessmentStarted = false;
+
+        // Initialize
+        function init() {
+            renderQuestions();
+            updateProgress();
+        }
+
+        // Start Assessment
+        function startAssessment() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('navigationButtons').style.display = 'flex';
+            isAssessmentStarted = true;
+            showSection(0);
+        }
+
+        // Render all questions
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            assessmentData.forEach((section, sectionIndex) => {
+                const sectionCard = document.createElement('div');
+                sectionCard.className = 'section-card';
+                sectionCard.id = `section-${sectionIndex}`;
+                sectionCard.style.display = 'none';
+
+                const sectionTitle = document.createElement('div');
+                sectionTitle.className = 'section-title';
+                sectionTitle.innerHTML = `
+                    <span class="section-number">${sectionIndex + 1}</span>
+                    ${section.title}
+                `;
+                sectionCard.appendChild(sectionTitle);
+
+                section.questions.forEach((question, questionIndex) => {
+                    const questionDiv = createQuestion(question, `${sectionIndex}-${questionIndex}`);
+                    sectionCard.appendChild(questionDiv);
+                });
+
+                container.appendChild(sectionCard);
+            });
+        }
+
+        // Create question element
+        function createQuestion(question, id) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+
+            if (question.type === 'section' && question.subQuestions) {
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'question-text';
+                titleDiv.textContent = question.text;
+                questionDiv.appendChild(titleDiv);
+
+                question.subQuestions.forEach((subQ, subIndex) => {
+                    const subDiv = createQuestion(subQ, `${id}-${subIndex}`);
+                    questionDiv.appendChild(subDiv);
+                });
+            } else {
+                const textDiv = document.createElement('div');
+                textDiv.className = 'question-text';
+                textDiv.textContent = question.text;
+                questionDiv.appendChild(textDiv);
+
+                if (question.type === 'checkbox') {
+                    const checkboxContainer = document.createElement('div');
+                    checkboxContainer.className = 'checkbox-container';
+                    checkboxContainer.onclick = () => toggleCheckbox(id);
+
+                    if (question.label) {
+                        const label = document.createElement('span');
+                        label.className = 'checkbox-label';
+                        label.textContent = question.label;
+                        checkboxContainer.appendChild(label);
+                    }
+
+                    const checkbox = document.createElement('div');
+                    checkbox.className = 'checkbox';
+                    checkbox.id = `checkbox-${id}`;
+
+                    checkboxContainer.appendChild(checkbox);
+                    questionDiv.appendChild(checkboxContainer);
+                } else if (question.type === 'scale') {
+                    const scaleContainer = document.createElement('div');
+                    scaleContainer.className = 'scale-container';
+
+                    for (let i = 1; i <= 5; i++) {
+                        const button = document.createElement('button');
+                        button.className = 'scale-button';
+                        button.id = `scale-${id}-${i}`;
+                        button.textContent = i;
+                        button.onclick = () => selectScale(id, i);
+                        scaleContainer.appendChild(button);
+                    }
+
+                    questionDiv.appendChild(scaleContainer);
+
+                    const labels = document.createElement('div');
+                    labels.className = 'scale-labels';
+                    labels.innerHTML = '<span>כלל לא</span><span>במידה רבה מאוד</span>';
+                    questionDiv.appendChild(labels);
+                } else if (question.type === 'radio' && question.options) {
+                    const radioContainer = document.createElement('div');
+                    radioContainer.className = 'radio-container';
+
+                    question.options.forEach((option, optIndex) => {
+                        const radioOption = document.createElement('div');
+                        radioOption.className = 'radio-option';
+                        radioOption.id = `radio-${id}-${optIndex}`;
+                        radioOption.onclick = () => selectRadio(id, optIndex);
+
+                        const circle = document.createElement('div');
+                        circle.className = 'radio-circle';
+
+                        const label = document.createElement('span');
+                        label.textContent = option;
+
+                        radioOption.appendChild(circle);
+                        radioOption.appendChild(label);
+                        radioContainer.appendChild(radioOption);
+                    });
+
+                    questionDiv.appendChild(radioContainer);
+                }
+
+                if (question.hint) {
+                    const hint = document.createElement('div');
+                    hint.className = 'hint';
+                    hint.innerHTML = `<strong>💡 טיפ:</strong> ${question.hint}`;
+                    questionDiv.appendChild(hint);
+                }
+            }
+
+            return questionDiv;
+        }
+
+        // Toggle checkbox
+        function toggleCheckbox(id) {
+            const checkbox = document.getElementById(`checkbox-${id}`);
+            const isChecked = checkbox.classList.toggle('checked');
+            answers[id] = isChecked ? 1 : 0;
+            updateProgress();
+        }
+
+        // Select scale value
+        function selectScale(id, value) {
+            // Clear previous selection
+            for (let i = 1; i <= 5; i++) {
+                const button = document.getElementById(`scale-${id}-${i}`);
+                if (button) button.classList.remove('selected');
+            }
+            
+            // Set new selection
+            const selectedButton = document.getElementById(`scale-${id}-${value}`);
+            if (selectedButton) selectedButton.classList.add('selected');
+            
+            answers[id] = value;
+            updateProgress();
+        }
+
+        // Select radio option
+        function selectRadio(id, optionIndex) {
+            const container = document.getElementById(`radio-${id}-${optionIndex}`).parentElement;
+            const allOptions = container.querySelectorAll('.radio-option');
+            
+            allOptions.forEach(opt => opt.classList.remove('selected'));
+            document.getElementById(`radio-${id}-${optionIndex}`).classList.add('selected');
+            
+            answers[id] = optionIndex + 1;
+            updateProgress();
+        }
+
+        // Show specific section
+        function showSection(index) {
+            const sections = document.querySelectorAll('.section-card');
+            sections.forEach((section, i) => {
+                section.style.display = i === index ? 'block' : 'none';
+            });
+
+            currentSectionIndex = index;
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.display = index === 0 ? 'none' : 'inline-flex';
+            document.getElementById('nextBtn').style.display = index === assessmentData.length - 1 ? 'none' : 'inline-flex';
+            document.getElementById('finishBtn').style.display = index === assessmentData.length - 1 ? 'inline-flex' : 'none';
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Navigate to next section
+        function nextSection() {
+            if (currentSectionIndex < assessmentData.length - 1) {
+                showSection(currentSectionIndex + 1);
+            }
+        }
+
+        // Navigate to previous section
+        function previousSection() {
+            if (currentSectionIndex > 0) {
+                showSection(currentSectionIndex - 1);
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const totalQuestions = getTotalQuestions();
+            const answeredQuestions = Object.keys(answers).length;
+            const progress = Math.round((answeredQuestions / totalQuestions) * 100);
+
+            document.getElementById('progressText').textContent = `${progress}%`;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        // Get total number of questions
+        function getTotalQuestions() {
+            let total = 0;
+            assessmentData.forEach(section => {
+                section.questions.forEach(question => {
+                    if (question.type === 'section' && question.subQuestions) {
+                        total += question.subQuestions.length;
+                    } else {
+                        total++;
+                    }
+                });
+            });
+            return total;
+        }
+
+        // Calculate scores
+        function calculateScores() {
+            let totalScore = 0;
+            let maxScore = 0;
+            let categoryScores = {};
+
+            assessmentData.forEach((section, sectionIndex) => {
+                let sectionScore = 0;
+                let sectionMax = 0;
+
+                section.questions.forEach((question, questionIndex) => {
+                    if (question.type === 'section' && question.subQuestions) {
+                        question.subQuestions.forEach((subQ, subIndex) => {
+                            const id = `${sectionIndex}-${questionIndex}-${subIndex}`;
+                            const value = answers[id] || 0;
+                            
+                            if (subQ.type === 'checkbox') {
+                                sectionScore += value;
+                                sectionMax += 1;
+                            } else if (subQ.type === 'scale') {
+                                sectionScore += value;
+                                sectionMax += 5;
+                            }
+                        });
+                    } else {
+                        const id = `${sectionIndex}-${questionIndex}`;
+                        const value = answers[id] || 0;
+                        
+                        if (question.type === 'checkbox') {
+                            sectionScore += value;
+                            sectionMax += 1;
+                        } else if (question.type === 'scale') {
+                            sectionScore += value;
+                            sectionMax += 5;
+                        } else if (question.type === 'radio') {
+                            // Radio options score based on selection (1, 2, or 3)
+                            sectionScore += value;
+                            sectionMax += question.options.length;
+                        }
+                    }
+                });
+
+                categoryScores[section.title] = {
+                    score: sectionScore,
+                    max: sectionMax,
+                    percentage: sectionMax > 0 ? Math.round((sectionScore / sectionMax) * 100) : 0
+                };
+
+                totalScore += sectionScore;
+                maxScore += sectionMax;
+            });
+
+            return {
+                total: totalScore,
+                max: maxScore,
+                percentage: Math.round((totalScore / maxScore) * 100),
+                categories: categoryScores
+            };
+        }
+
+        // Determine maturity level
+        function getMaturityLevel(percentage) {
+            if (percentage >= 80) {
+                return {
+                    level: "מתקדמת",
+                    description: "הרשות שלכם נמצאת ברמת בשלות מתקדמת! יש לכם תשתית מצוינת לעבודה מבוססת נתונים. המשיכו לחדש ולהוביל.",
+                    color: "#52B788"
+                };
+            } else if (percentage >= 60) {
+                return {
+                    level: "מפותחת",
+                    description: "הרשות בדרך הנכונה! יש בסיס טוב ויש מקום לשיפור בתחומים ספציפיים כדי למקסם את הפוטנציאל.",
+                    color: "#00B4D8"
+                };
+            } else if (percentage >= 40) {
+                return {
+                    level: "מתפתחת",
+                    description: "הרשות בתהליך התפתחות. ישנם תחומים חזקים לצד אתגרים שדורשים התייחסות. מומלץ להתמקד בחיזוק התשתיות והתהליכים.",
+                    color: "#F77F00"
+                };
+            } else {
+                return {
+                    level: "התחלתית",
+                    description: "הרשות בתחילת המסע. זה הזמן המושלם להתחיל לבנות תשתית לעבודה מבוססת נתונים. כל צעד קדימה הוא משמעותי!",
+                    color: "#D62828"
+                };
+            }
+        }
+
+        // Show results
+        function showResults() {
+            const scores = calculateScores();
+            const maturityLevel = getMaturityLevel(scores.percentage);
+
+            // Hide questions and navigation
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('navigationButtons').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'none';
+
+            // Show results section
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.classList.add('show');
+
+            // Update total score
+            document.getElementById('totalScore').textContent = `${scores.percentage}%`;
+
+            // Update maturity level
+            const levelBadge = document.getElementById('levelBadge');
+            levelBadge.textContent = `רמת בשלות: ${maturityLevel.level}`;
+            levelBadge.style.background = `linear-gradient(135deg, ${maturityLevel.color}, ${maturityLevel.color}dd)`;
+
+            document.getElementById('levelDescription').textContent = maturityLevel.description;
+
+            // Update category scores
+            const categoriesContainer = document.getElementById('categoriesResults');
+            categoriesContainer.innerHTML = '';
+
+            Object.entries(scores.categories).forEach(([name, data]) => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item';
+                categoryItem.innerHTML = `
+                    <div class="category-header">
+                        <span class="category-name">${name}</span>
+                        <span class="category-score">${data.percentage}%</span>
+                    </div>
+                    <div class="category-bar">
+                        <div class="category-fill" style="width: ${data.percentage}%"></div>
+                    </div>
+                `;
+                categoriesContainer.appendChild(categoryItem);
+            });
+
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Print results
+        function printResults() {
+            window.print();
+        }
+
+        // Export results to Excel
+        function exportResults() {
+            const scores = calculateScores();
+            const maturityLevel = getMaturityLevel(scores.percentage);
+
+            // Create CSV content
+            let csvContent = "\uFEFF"; // BOM for Hebrew
+            csvContent += "תוצאות אבחון בשלות דאטה\n\n";
+            csvContent += `תאריך,${new Date().toLocaleDateString('he-IL')}\n`;
+            csvContent += `ציון כולל,${scores.percentage}%\n`;
+            csvContent += `רמת בשלות,${maturityLevel.level}\n\n`;
+            csvContent += "קטגוריה,ציון\n";
+
+            Object.entries(scores.categories).forEach(([name, data]) => {
+                csvContent += `${name},${data.percentage}%\n`;
+            });
+
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `אבחון_בשלות_דאטה_${new Date().toLocaleDateString('he-IL')}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Restart assessment
+        function restartAssessment() {
+            if (confirm('האם אתה בטוח שברצונך להתחיל מחדש? כל התשובות יימחקו.')) {
+                answers = {};
+                currentSectionIndex = 0;
+                isAssessmentStarted = false;
+
+                // Reset UI
+                document.getElementById('resultsSection').classList.remove('show');
+                document.getElementById('startScreen').style.display = 'block';
+                document.getElementById('questionsContainer').style.display = 'block';
+                document.getElementById('progressContainer').style.display = 'none';
+                document.getElementById('navigationButtons').style.display = 'none';
+
+                // Clear all selections
+                document.querySelectorAll('.checkbox').forEach(cb => cb.classList.remove('checked'));
+                document.querySelectorAll('.scale-button').forEach(btn => btn.classList.remove('selected'));
+                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+
+                // Reset progress
+                updateProgress();
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
