@@ -1,1457 +1,1352 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אבחון בשלות דאטה - רשות מקומית</title>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #2E3192;
-            --secondary: #00B4D8;
-            --accent: #90E0EF;
-            --success: #52B788;
-            --warning: #F77F00;
-            --danger: #D62828;
-            --dark: #0D1B2A;
-            --gray: #415A77;
-            --light-gray: #E0E1DD;
-            --white: #FFFFFF;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        body {
-            font-family: 'Heebo', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            color: var(--dark);
-            line-height: 1.6;
-            direction: rtl;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        .header {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: var(--card-shadow);
-            position: relative;
-            overflow: hidden;
-            animation: slideDown 0.6s ease;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            font-weight: 400;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            animation: slideUp 0.8s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .progress-bar {
-            background: var(--light-gray);
-            height: 12px;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            position: relative;
-            box-shadow: 0 2px 10px rgba(46, 49, 146, 0.3);
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Section Card */
-        .section-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.6s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .section-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--hover-shadow);
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--accent);
-            position: relative;
-        }
-
-        .section-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            border-radius: 50%;
-            margin-left: 15px;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        /* Questions */
-        .question {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            border-radius: 15px;
-            border-right: 4px solid var(--accent);
-            transition: all 0.3s ease;
-        }
-
-        .question:hover {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
-            transform: translateX(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .question-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--dark);
-            margin-bottom: 15px;
-            line-height: 1.7;
-        }
-
-        .hint {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 12px;
-            font-size: 0.95rem;
-            color: var(--gray);
-            border-right: 3px solid var(--secondary);
-            animation: slideIn 0.4s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Checkbox Questions */
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 5px;
-            border-radius: 10px;
-        }
-
-        .checkbox-container:hover {
-            background: var(--accent);
-            background: linear-gradient(135deg, rgba(144, 224, 239, 0.2), rgba(0, 180, 216, 0.1));
-        }
-
-        .checkbox {
-            width: 28px;
-            height: 28px;
-            border: 3px solid var(--secondary);
-            border-radius: 8px;
-            margin-left: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            background: var(--white);
-        }
-
-        .checkbox.checked {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-color: var(--primary);
-            animation: checkBounce 0.4s ease;
-        }
-
-        @keyframes checkBounce {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .checkbox.checked::after {
-            content: '✓';
-            color: var(--white);
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .checkbox-label {
-            margin-right: 10px;
-            font-size: 0.9rem;
-            color: var(--gray);
-            font-style: italic;
-        }
-
-        /* Scale Questions */
-        .scale-container {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .scale-button {
-            width: 60px;
-            height: 60px;
-            border: 2px solid var(--light-gray);
-            background: var(--white);
-            border-radius: 12px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .scale-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.4s ease;
-        }
-
-        .scale-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            border-color: var(--secondary);
-        }
-
-        .scale-button.selected {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            border-color: var(--primary);
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(46, 49, 146, 0.3);
-        }
-
-        .scale-button.selected::before {
-            width: 100%;
-            height: 100%;
-        }
-
-        .scale-labels {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        /* Radio Questions */
-        .radio-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: var(--white);
-            border: 2px solid var(--light-gray);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-option:hover {
-            background: linear-gradient(135deg, rgba(144, 224, 239, 0.1), rgba(0, 180, 216, 0.05));
-            border-color: var(--secondary);
-            transform: translateX(-5px);
-        }
-
-        .radio-option.selected {
-            background: linear-gradient(135deg, rgba(46, 49, 146, 0.1), rgba(0, 180, 216, 0.1));
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(46, 49, 146, 0.2);
-        }
-
-        .radio-circle {
-            width: 24px;
-            height: 24px;
-            border: 3px solid var(--gray);
-            border-radius: 50%;
-            margin-left: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .radio-option.selected .radio-circle {
-            border-color: var(--primary);
-        }
-
-        .radio-option.selected .radio-circle::after {
-            content: '';
-            width: 12px;
-            height: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            animation: popIn 0.3s ease;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* Results Section */
-        .results-section {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            padding: 40px;
-            margin-top: 40px;
-            color: var(--white);
-            box-shadow: 0 15px 40px rgba(46, 49, 146, 0.3);
-            display: none;
-            animation: bounceIn 0.8s ease;
-        }
-
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.8); }
-            50% { transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .results-section.show {
-            display: block;
-        }
-
-        .results-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .score-container {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .total-score {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .score-label {
-            font-size: 1.3rem;
-            font-weight: 500;
-            opacity: 0.95;
-        }
-
-        .maturity-level {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .level-badge {
-            display: inline-block;
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .level-description {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            opacity: 0.95;
-        }
-
-        /* Buttons */
-        .button-container {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 15px 35px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 300%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%) rotate(45deg);
-            transition: width 0.6s ease;
-        }
-
-        .btn:hover::before {
-            width: 300%;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(46, 49, 146, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(46, 49, 146, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--white);
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success), #52B788);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(82, 183, 136, 0.3);
-        }
-
-        .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(82, 183, 136, 0.4);
-        }
-
-        /* Categories Breakdown */
-        .categories-breakdown {
-            margin-top: 30px;
-        }
-
-        .category-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .category-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .category-score {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .category-bar {
-            background: rgba(255, 255, 255, 0.2);
-            height: 8px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .category-fill {
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
-            border-radius: 10px;
-            transition: width 1s ease;
-        }
-
-        /* Start Screen */
-        .start-screen {
-            text-align: center;
-            padding: 60px 40px;
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 40px;
-            animation: zoomIn 0.6s ease;
-        }
-
-        @keyframes zoomIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .start-screen h2 {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .start-screen p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-
-        .icon {
-            font-size: 1.2rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .section-title {
-                font-size: 1.4rem;
-            }
-
-            .scale-container {
-                justify-content: space-between;
-            }
-
-            .scale-button {
-                width: 50px;
-                height: 50px;
-                font-size: 1.1rem;
-            }
-
-            .btn {
-                padding: 12px 25px;
-                font-size: 1rem;
-            }
-
-            .total-score {
-                font-size: 3rem;
-            }
-
-            .button-container {
-                flex-direction: column;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: var(--white);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                background: white;
-            }
-
-            .btn, .button-container {
-                display: none;
-            }
-
-            .section-card {
-                page-break-inside: avoid;
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-
-            .question:hover {
-                transform: none;
-                box-shadow: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>אבחון בשלות דאטה - ארגון חברתי</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #2E3192;
+      --secondary: #00B4D8;
+      --accent: #90E0EF;
+      --success: #52B788;
+      --warning: #F77F00;
+      --danger: #D62828;
+      --dark: #0D1B2A;
+      --gray: #415A77;
+      --light-gray: #E0E1DD;
+      --white: #FFFFFF;
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      color: var(--dark);
+      line-height: 1.6;
+      direction: rtl;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+    .header {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      animation: slideDown 0.6s ease;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-30px);} to { opacity: 1; transform: translateY(0);} }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p { font-size: 1.2rem; color: var(--gray); font-weight: 400; }
+
+    .start-screen {
+      text-align: center;
+      padding: 60px 40px;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 40px;
+      animation: zoomIn 0.6s ease;
+    }
+    @keyframes zoomIn { from { opacity: 0; transform: scale(0.8);} to { opacity: 1; transform: scale(1);} }
+
+    .start-screen h2 { font-size: 2rem; color: var(--primary); margin-bottom: 20px; font-weight: 700; }
+    .start-screen p { font-size: 1.15rem; color: var(--gray); margin-bottom: 30px; line-height: 1.9; }
+
+    .progress-container {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+      animation: slideUp 0.8s ease;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+
+    .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .progress-bar { background: var(--light-gray); height: 12px; border-radius: 10px; overflow: hidden; position: relative; }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(46, 49, 146, 0.3);
+    }
+    .progress-fill::after {
+      content: '';
+      position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shine 2s infinite;
+    }
+    @keyframes shine { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+
+    .section-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      animation: fadeIn 0.6s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95);} to { opacity: 1; transform: scale(1);} }
+
+    .section-card:hover { transform: translateY(-5px); box-shadow: var(--hover-shadow); }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      border-radius: 50%;
+      margin-left: 15px;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .question {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border-radius: 15px;
+      border-right: 4px solid var(--accent);
+      transition: all 0.3s ease;
+    }
+    .question:hover {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+      transform: translateX(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+
+    .hint {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: var(--gray);
+      border-right: 3px solid var(--secondary);
+      animation: slideIn 0.4s ease;
+    }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(20px);} to { opacity: 1; transform: translateX(0);} }
+
+    .binary-container {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .binary-btn {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 2px solid var(--light-gray);
+      background: var(--white);
+      cursor: pointer;
+      font-weight: 800;
+      transition: all 0.25s ease;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .binary-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--secondary);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .binary-btn.selected-yes {
+      background: linear-gradient(135deg, var(--success), #3aa66f);
+      color: var(--white);
+      border-color: var(--success);
+      box-shadow: 0 8px 20px rgba(82, 183, 136, 0.35);
+    }
+
+    .binary-btn.selected-no {
+      background: linear-gradient(135deg, var(--danger), #c51f1f);
+      color: var(--white);
+      border-color: var(--danger);
+      box-shadow: 0 8px 20px rgba(214, 40, 40, 0.30);
+    }
+
+    .scale-container { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+
+    .scale-button {
+      width: 60px; height: 60px;
+      border: 2px solid var(--light-gray);
+      background: var(--white);
+      border-radius: 12px;
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .scale-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      border-color: var(--secondary);
+    }
+    .scale-button.selected {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      border-color: var(--primary);
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(46, 49, 146, 0.3);
+    }
+
+    .scale-button.na {
+      width: auto;
+      padding: 0 14px;
+      min-width: 140px;
+      font-size: 0.95rem;
+      font-weight: 900;
+      border-style: dashed;
+    }
+
+    .scale-button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .radio-container { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: var(--white);
+      border: 2px solid var(--light-gray);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .radio-option:hover {
+      background: linear-gradient(135deg, rgba(144, 224, 239, 0.1), rgba(0, 180, 216, 0.05));
+      border-color: var(--secondary);
+      transform: translateX(-5px);
+    }
+    .radio-option.selected {
+      background: linear-gradient(135deg, rgba(46, 49, 146, 0.1), rgba(0, 180, 216, 0.1));
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(46, 49, 146, 0.2);
+    }
+
+    .radio-circle {
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--gray);
+      border-radius: 50%;
+      margin-left: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .radio-option.selected .radio-circle { border-color: var(--primary); }
+    .radio-option.selected .radio-circle::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+    }
+
+    .results-section {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      padding: 40px;
+      margin-top: 40px;
+      color: var(--white);
+      box-shadow: 0 15px 40px rgba(46, 49, 146, 0.3);
+      display: none;
+      animation: bounceIn 0.8s ease;
+    }
+    @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.8);} 50% { transform: scale(1.05);} 100% { opacity: 1; transform: scale(1);} }
+    .results-section.show { display: block; }
+
+    .results-title { font-size: 2.2rem; font-weight: 900; margin-bottom: 22px; text-align: center; }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 900px) {
+      .score-grid { grid-template-columns: 1fr 1.1fr; align-items: stretch; }
+    }
+
+    .score-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 26px;
+      text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .total-score {
+      font-size: 4rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .score-label { font-size: 1.3rem; font-weight: 600; opacity: 0.95; }
+
+    .maturity-level {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 18px;
+      margin-top: 14px;
+      text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .level-badge {
+      display: inline-block;
+      padding: 10px 26px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .level-description { font-size: 1.05rem; line-height: 1.7; opacity: 0.98; }
+
+    .radar-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .radar-title { font-size: 1.25rem; font-weight: 900; margin-bottom: 10px; text-align: center; }
+    .radar-wrap { width: 100%; display: flex; justify-content: center; align-items: center; }
+    .radar-sub { text-align: center; opacity: 0.95; margin-top: 8px; font-size: 0.95rem; }
+
+    .categories-breakdown { margin-top: 26px; }
+    .categories-breakdown h3 { margin-bottom: 14px; font-size: 1.4rem; font-weight: 900; }
+
+    .category-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 10px; }
+    .category-name { font-size: 1.05rem; font-weight: 900; }
+    .category-score { font-size: 1.2rem; font-weight: 900; white-space: nowrap; }
+
+    .category-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+      opacity: 0.98;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-weight: 900;
+      font-size: 0.92rem;
+    }
+
+    .category-feedback {
+      margin-top: 8px;
+      line-height: 1.7;
+      font-size: 1rem;
+      opacity: 0.98;
+    }
+
+    .category-bar { background: rgba(255, 255, 255, 0.2); height: 8px; border-radius: 10px; overflow: hidden; }
+    .category-fill {
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.85));
+      border-radius: 10px;
+      transition: width 1s ease;
+    }
+
+    .button-container { display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+
+    .btn {
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(46, 49, 146, 0.3);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(46, 49, 146, 0.4); }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .btn-secondary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #52B788);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(82, 183, 136, 0.3);
+    }
+    .btn-success:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(82, 183, 136, 0.4); }
+
+    .icon { font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 1.8rem; }
+      .section-title { font-size: 1.4rem; }
+      .scale-container { justify-content: flex-start; }
+      .scale-button { width: 50px; height: 50px; font-size: 1.05rem; }
+      .scale-button.na { min-width: 100%; width: 100%; height: 46px; }
+      .btn { padding: 12px 25px; font-size: 1rem; }
+      .total-score { font-size: 3rem; }
+      .button-container { flex-direction: column; }
+      .binary-btn { min-width: 46%; flex: 1; }
+    }
+
+    @media print {
+      body { background: white; }
+      .btn, .button-container { display: none !important; }
+      .section-card { page-break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+      .question:hover { transform: none; box-shadow: none; }
+      .results-section { color: #111; background: white; box-shadow: none; border: 1px solid #ddd; }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🎯 כלי אבחון בשלות דאטה ארגונית</h1>
-            <p>כלי דיגיטלי לבדיקת רמת הבשלות של עבודה מבוססת נתונים ברשות המקומית</p>
-        </div>
-
-        <!-- Start Screen -->
-        <div id="startScreen" class="start-screen">
-            <h2>ברוכים הבאים לכלי האבחון</h2>
-            <p>כלי זה יעזור לכם להעריך את רמת הבשלות של אסטרטגיית הנתונים ועבודה מבוססת נתונים ברשות.<br>
-            השאלון כולל מספר קטגוריות ולוקח כ-10 דקות למילוי.</p>
-            <button class="btn btn-primary" onclick="startAssessment()">
-                <span class="icon">🚀</span>
-                התחל אבחון
-            </button>
-        </div>
-
-        <!-- Progress Bar -->
-        <div id="progressContainer" class="progress-container" style="display: none;">
-            <div class="progress-info">
-                <span style="font-weight: 600;">התקדמות במילוי</span>
-                <span id="progressText">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
-            </div>
-        </div>
-
-        <!-- Questions Container -->
-        <div id="questionsContainer"></div>
-
-        <!-- Results Section -->
-        <div id="resultsSection" class="results-section">
-            <h2 class="results-title">📊 תוצאות האבחון</h2>
-            
-            <div class="score-container">
-                <div id="totalScore" class="total-score">0</div>
-                <div class="score-label">ציון כולל</div>
-            </div>
-
-            <div class="maturity-level">
-                <div id="levelBadge" class="level-badge">רמת בשלות</div>
-                <p id="levelDescription" class="level-description"></p>
-            </div>
-
-            <div class="categories-breakdown">
-                <h3 style="margin-bottom: 20px; font-size: 1.5rem;">פירוט לפי קטגוריות:</h3>
-                <div id="categoriesResults"></div>
-            </div>
-
-            <div class="button-container">
-                <button class="btn btn-secondary" onclick="printResults()">
-                    <span class="icon">🖨️</span>
-                    הדפס תוצאות
-                </button>
-                <button class="btn btn-success" onclick="exportResults()">
-                    <span class="icon">📥</span>
-                    ייצא לאקסל
-                </button>
-                <button class="btn btn-primary" onclick="restartAssessment()">
-                    <span class="icon">🔄</span>
-                    התחל מחדש
-                </button>
-            </div>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div id="navigationButtons" class="button-container" style="display: none;">
-            <button id="prevBtn" class="btn btn-secondary" onclick="previousSection()">
-                <span class="icon">→</span>
-                חזור
-            </button>
-            <button id="nextBtn" class="btn btn-primary" onclick="nextSection()">
-                המשך
-                <span class="icon">←</span>
-            </button>
-            <button id="finishBtn" class="btn btn-success" onclick="showResults()" style="display: none;">
-                <span class="icon">✅</span>
-                סיים וצפה בתוצאות
-            </button>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>🎯 כלי אבחון בשלות דאטה ארגונית</h1>
+      <p>גרסה לארגונים חברתיים (עמותות/ארגונים) — לפי האקסל והאפיון</p>
     </div>
 
-    <script>
-        // Assessment Data Structure - עם השינויים שלך
-        const assessmentData = [
-            {
-                title: "מטרות, יעדים ושאלות",
-                questions: [
-                    {
-                        text: "האם יש לרשות אסטרטגיה (תיאוריית שינוי) סדורה?",
-                        type: "section",
-                        subQuestions: [
-                            {
-                                text: "מטרות הרשות",
-                                type: "checkbox",
-                                hint: "מטרות הן הדבר שהתכנית מבקשת להשיג - החזון הגדול",
-                                label: "סמן אם קיים"
-                            },
-                            {
-                                text: "התוצאות שהיא שואפת להשיג",
-                                type: "checkbox",
-                                hint: "התוצאות הן השינוי בפועל בקרב האוכלוסיה",
-                                label: "סמן אם קיים"
-                            },
-                            {
-                                text: "הפעולות שנוקטים והאופן שבו יביאו להשגת התוצאות",
-                                type: "checkbox",
-                                hint: "הפעולות הן הדרכים שבהן תפעלו כדי להשיג את התוצאות",
-                                label: "סמן אם קיים"
-                            }
-                        ]
-                    },
-                    {
-                        text: "באיזו מידה (1= כלל לא, 5= במידה רבה מאוד) אתם משתמשים בנתונים כדי:",
-                        type: "section",
-                        subQuestions: [
-                            {
-                                text: "להבין את הבעיה איתה מבקשים להתמודד?",
-                                type: "scale",
-                                hint: "כדאי לבחון נתונים באשר להיקף הבעיה ומאפייניה"
-                            },
-                            {
-                                text: "ללמוד על התושבים והסביבה ברשות?",
-                                type: "scale",
-                                hint: "נתונים יעזרו לכם להבין טוב יותר את צרכי התושבים"
-                            },
-                            {
-                                text: "להחליט מה הן הפעולות שהרשות תבצע וכיצד נכון לבצען?",
-                                type: "scale"
-                            },
-                            {
-                                text: "למדוד תוצאות/אימפקט?",
-                                type: "scale"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "כלים ותשתיות",
-                questions: [
-                    {
-                        text: "איך נאספים הנתונים בארגון?",
-                        type: "radio",
-                        options: [
-                            "בעיקר במסמכי נייר/וורד",
-                            "בעיקר בטפסים מקוונים וקבצי אקסל",
-                            "בעיקר באמצעות מערכת/ות מידע ייעודית (למשל CRM)"
-                        ]
-                    },
-                    {
-                        text: "איפה נשמרים ומנוהלים רוב הנתונים?",
-                        type: "radio",
-                        options: [
-                            "בתיקיות האישיות/במחשבים של העובדים",
-                            "בתיקיות משותפות",
-                            "במאגר נתונים ייעודי/מערכות מידע"
-                        ]
-                    },
-                    {
-                        text: "באיזו מידה מערכות המידע שלכם מתאימות לצרכי הרשות?",
-                        type: "scale",
-                        hint: "1 = כלל לא מתאימות, 5 = מתאימות מאוד"
-                    },
-                    {
-                        text: "באיזו מידה יש ריבוי מערכות וקושי בסנכרון נתונים?",
-                        type: "scale",
-                        hint: "1 = אין בעיה כלל, 5 = בעיה חמורה"
-                    },
-                    {
-                        text: "כיצד אתם מפיקים ומנגישים נתונים ודוחות?",
-                        type: "radio",
-                        options: [
-                            "אנחנו לא מפיקים דוחות",
-                            "במסמכים ומצגות",
-                            "בדוחות מובנים המבוססים על אקסל או גוגל שיטס",
-                            "במערכת BI או דאשבורדים אינטראקטיביים"
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "איכות הנתונים",
-                questions: [
-                    {
-                        text: "עד כמה (1=כלל לא, 5=במידה רבה מאוד) הנתונים שיש לכם:",
-                        type: "section",
-                        subQuestions: [
-                            {
-                                text: "מדויקים ואמינים?",
-                                type: "scale"
-                            },
-                            {
-                                text: "עדכניים?",
-                                type: "scale"
-                            },
-                            {
-                                text: "שלמים (מכסים את כל מה שצריך)?",
-                                type: "scale"
-                            },
-                            {
-                                text: "נגישים וזמינים למי שצריך אותם?",
-                                type: "scale"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "תרבות ארגונית",
-                questions: [
-                    {
-                        text: "עד כמה יש בארגון תרבות של קבלת החלטות מבוססת נתונים?",
-                        type: "scale",
-                        hint: "1 = כלל לא, 5 = תרבות חזקה מאוד"
-                    },
-                    {
-                        text: "עד כמה העובדים מיומנים בעבודה עם נתונים?",
-                        type: "scale"
-                    },
-                    {
-                        text: "האם יש אחראי/צוות ייעודי לנושא הנתונים ברשות?",
-                        type: "checkbox",
-                        label: "סמן אם כן"
-                    },
-                    {
-                        text: "עד כמה ההנהלה תומכת ומעודדת שימוש בנתונים?",
-                        type: "scale"
-                    }
-                ]
-            },
-            {
-                title: "פרטיות ואבטחה",
-                questions: [
-                    {
-                        text: "האם קיימת מדיניות ברורה לאבטחת מידע ופרטיות?",
-                        type: "checkbox",
-                        label: "סמן אם כן"
-                    },
-                    {
-                        text: "עד כמה העובדים מכירים ופועלים לפי נהלי אבטחת המידע?",
-                        type: "scale"
-                    },
-                    {
-                        text: "האם מתבצעות ביקורות תקופתיות על אבטחת המידע?",
-                        type: "checkbox",
-                        label: "סמן אם כן"
-                    }
-                ]
-            },
-            {
-                title: "שיתופי פעולה",
-                questions: [
-                    {
-                        text: "עד כמה יש שיתוף נתונים בין מחלקות בתוך הרשות?",
-                        type: "scale"
-                    },
-                    {
-                        text: "האם יש שיתופי פעולה עם גורמים חיצוניים בנושא נתונים?",
-                        type: "checkbox",
-                        hint: "למשל: ממשלה, רשויות אחרות, אקדמיה, מגזר שלישי",
-                        label: "סמן אם כן"
-                    },
-                    {
-                        text: "עד כמה הנתונים שקופים ונגישים לתושבים?",
-                        type: "scale"
-                    }
-                ]
-            }
-        ];
+    <div id="startScreen" class="start-screen">
+      <h2>ברוכים הבאים לכלי האבחון</h2>
+      <p>
+        השאלון מספק תמונת מצב ראשונית על בשלות הנתונים בארגון.<br>
+        בסיום תקבלו ציון כולל, רמות בשלות לפי ממדים, ותרשים רדאר מסכם.
+      </p>
+      <button class="btn btn-primary" onclick="startAssessment()">
+        <span class="icon">🚀</span>
+        התחל אבחון
+      </button>
+    </div>
 
-        // State Management
-        let currentSectionIndex = 0;
-        let answers = {};
-        let isAssessmentStarted = false;
+    <div id="progressContainer" class="progress-container" style="display:none;">
+      <div class="progress-info">
+        <span style="font-weight: 900;">התקדמות במילוי</span>
+        <span id="progressText">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div id="progressFill" class="progress-fill" style="width:0%;"></div>
+      </div>
+    </div>
 
-        // Initialize
-        function init() {
-            renderQuestions();
-            updateProgress();
+    <div id="questionsContainer"></div>
+
+    <div id="resultsSection" class="results-section">
+      <h2 class="results-title">📊 תוצאות האבחון</h2>
+
+      <div class="score-grid">
+        <div>
+          <div class="score-container">
+            <div id="totalScore" class="total-score">0%</div>
+            <div class="score-label">ציון כולל</div>
+
+            <div class="maturity-level">
+              <div id="levelBadge" class="level-badge">רמת בשלות</div>
+              <p id="levelDescription" class="level-description"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="radar-card">
+          <div class="radar-title">ויזואליזציה כוללת לפי ממדים (רדאר)</div>
+          <div class="radar-wrap">
+            <div id="radarContainer"></div>
+          </div>
+          <div class="radar-sub">התרשים מציג את אחוז הבשלות בכל ממד (0%–100%).</div>
+        </div>
+      </div>
+
+      <div class="categories-breakdown">
+        <h3>פירוט לפי ממדים</h3>
+        <div id="categoriesResults"></div>
+      </div>
+
+      <div class="button-container">
+        <button class="btn btn-secondary" onclick="printResults()">
+          <span class="icon">🖨️</span>
+          הדפס תוצאות
+        </button>
+        <button class="btn btn-success" onclick="exportResults()">
+          <span class="icon">📥</span>
+          ייצא לאקסל (CSV)
+        </button>
+        <button class="btn btn-primary" onclick="restartAssessment()">
+          <span class="icon">🔄</span>
+          התחל מחדש
+        </button>
+      </div>
+    </div>
+
+    <div id="navigationButtons" class="button-container" style="display:none;">
+      <button id="prevBtn" class="btn btn-secondary" onclick="previousSection()">
+        <span class="icon">→</span>
+        חזור
+      </button>
+      <button id="nextBtn" class="btn btn-primary" onclick="nextSection()">
+        המשך
+        <span class="icon">←</span>
+      </button>
+      <button id="finishBtn" class="btn btn-success" onclick="showResults()" style="display:none;">
+        <span class="icon">✅</span>
+        סיים וצפה בתוצאות
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ====== DATA (ארגונים חברתיים) ======
+    const assessmentData = [
+      {
+        "title": "מטרות, יעדים ושאלות",
+        "questions": [
+          {
+            "text": "האם יש לארגון יש תיאוריית שינוי סדורה, שבה מנוסחים באופן ברור ומוסכם",
+            "type": "section",
+            "subQuestions": [
+              { "text": "מטרות הפעילות", "type": "checkbox", "hint": "מטרות הן הדבר שהתכנית מבקשת להשיג - החזון הגדול" },
+              { "text": "התוצאות שאתם שואפים להשיג", "type": "checkbox", "hint": "התוצאות הן השינוי בפועל בקרב אוכלוסיית היעד" },
+              { "text": "הפעולות הננקטות והאופן שבו יביאו להשגת התוצאות", "type": "checkbox", "hint": "הפעולות הן הדרכים שבהן תפעלו כדי להשיג את התוצאות" }
+            ]
+          },
+          {
+            "text": "באיזו מידה (1= כלל לא, 5= במידה רבה מאוד) אתם משתמשים בנתונים כדי:",
+            "type": "section",
+            "hint": "1= כלל לא, 5= במידה רבה מאוד",
+            "subQuestions": [
+              { "text": "להבין את הבעיה החברתית איתה מבקשים להתמודד?", "type": "scale" },
+              { "text": "ללמוד על מקבלי השירות והסביבה?", "type": "scale" },
+              { "text": "לעצב אופן היישום של ההתערבות/התכניות?", "type": "scale" },
+              { "text": "למדוד תוצאות/אימפקט?", "type": "scale" }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "כלים ותשתיות",
+        "questions": [
+          {
+            "text": "איך נאספים הנתונים בארגון?",
+            "type": "radio",
+            "options": [
+              "בעיקר במסמכי נייר/וורד,",
+              "בעיקר בטפסים מקוונים וקבצי אקסל",
+              "בעיקר באמצעות מערכת/ות מידע ייעודית (למשל CRM)"
+            ]
+          },
+          {
+            "text": "איפה נשמרים ומנוהלים רוב הנתונים?",
+            "type": "radio",
+            "options": [
+              "בתיקיות האישיות/במחשבים של העובדים",
+              "בתיקיות משותפות",
+              "במאגר נתונים ייעודי/מערכות מידע"
+            ]
+          },
+          {
+            "text": "באיזו מידה מערכות המידע בארגון:",
+            "type": "section",
+            "subQuestions": [
+              { "text": "מתאימות לצרכינו ומאפשרות עבודה מבוססת נתונים", "type": "scale" },
+              { "text": "יש ריבוי מערכות בארגון, וקשה לחבר ולסנכרן נתונים ביניהם באופן שימושי", "type": "scale", "reverse": true, "hint": "ניקוד הפוך: דירוג 1 = 5 נקודות" },
+              { "text": "לא יודע/לא רלוונטי", "type": "checkbox", "hint": "ניתן לסמן רק אם לא דורגו שני הפריטים הקודמים" }
+            ]
+          },
+          {
+            "text": "כיצד אתם מפיקים ומנגישים נתונים ודוחות למנהלים ועובדים?",
+            "type": "radio",
+            "options": [
+              "אנחנו לא מפיקים דוחות",
+              "במסמכים ומצגות",
+              "בדוחות מובנים המבוססים על אקסל או גוגל שיטס",
+              "בלוחות מחוונים מבוססי מערכת BI או אחרת"
+            ]
+          },
+          {
+            "text": "עד כמה הנתונים שיש לכם:",
+            "type": "section",
+            "hint": "1=כלל לא, 5=במידה רבה מאוד",
+            "subQuestions": [
+              { "text": "שלמים ומלאים (מקיפים את כלל מקבלי השירות/ הפעילות הרלוונטית)", "type": "scale" },
+              { "text": "מהימנים (מייצגים נכון את המציאות)", "type": "scale" },
+              { "text": "תקינים (אין בהם טעויות או שגיאות)", "type": "scale" },
+              { "text": "שלמים ומלאים (מקיפים את כלל מקבלי השירות/ הפעילות הרלוונטית)", "type": "scale" }
+            ]
+          },
+          { "text": "עד כמה  אתם משתמשים בנתונים ממקורות מידע חיצוניים כמו נתוני הלמ\"ס, מחקרים אקדמיים, נתונים ציבוריים?", "type": "scale", "hint": "1=כלל לא, 5=במידה רבה מאוד" }
+        ]
+      },
+      {
+        "title": "שגרות",
+        "questions": [
+          {
+            "text": "באיזו מידה אתם משתמשים בנתונים בשגרות הארגוניות הבאות:",
+            "type": "section",
+            "hint": "1=כלל לא, 5=באופן קבוע",
+            "subQuestions": [
+              { "text": "ישיבות עבודה / צוות", "type": "scale" },
+              { "text": "ישיבות תקציב, תפעול, משאבי אנוש, גיוס משאבים", "type": "scale" },
+              { "text": "הערכת פעילות/תכניות", "type": "scale" },
+              { "text": "דיווחים לציבור, לשותפים ולתורמים", "type": "scale" },
+              { "text": "משוב והערכת עובדים", "type": "scale" },
+              { "text": "פיתוח פעילויות חדשות", "type": "scale" },
+              { "text": "בניית תכניות עבודה שנתיות", "type": "scale" }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "מיומנויות",
+        "questions": [
+          {
+            "text": "האם יש ביחידה שלך/באזור עובד-ת האחראי-ת על נושא הנתונים או המדידה והערכה?",
+            "type": "radio",
+            "options": [
+              "אין מוביל/אחראי נתונים בארגון",
+              "כן, בהיקף לא מוגדר",
+              "כן בפחות מ 50% משרה",
+              "כן ב 50% משרה",
+              "כן, ב 75% משרה ומעלה"
+            ]
+          },
+          { "text": "עד כמה אתם נעזרים במומחי נתונים חיצוניים במידת הצורך?", "type": "scale", "hint": "1=כלל לא, 5=במידה רבה מאוד" },
+          {
+            "text": "כמה (1=כמעט אף אחד, 5=כמעט כולם) מתוך כלל העובדים והמנהלים בארגון:",
+            "type": "section",
+            "hint": "1=כמעט אף אחד, 5=כמעט כולם",
+            "subQuestions": [
+              { "text": "יודעים לקרוא ולהבין נתונים המונגשים בצורות שונות?", "type": "scale" },
+              { "text": "יודעים להעריך את איכות ואמינות הנתונים המוצגים להם במידה ובאופן המתאים לתפקידם?", "type": "scale" },
+              { "text": "יודעים לאסוף, לאתר ולעבד נתונים במידה ובאופן המתאים לתפקידם?", "type": "scale" }
+            ]
+          },
+          { "text": "באיזו מידה מתקיימות הכשרות בנושא עבודה עם נתונים לעובדים ומנהלים?", "type": "scale", "hint": "1=כלל לא, 5=באופן קבוע" }
+        ]
+      },
+      {
+        "title": "תרבות ומנהיגות",
+        "questions": [
+          { "text": "האם קיים תקציב ייעודי למדידה והערכה, לפיתוח תשתיות נתונים ו/או ליעוץ בנושא נתונים?", "type": "checkbox" },
+          {
+            "text": "איך היית מתארת את המקום שבו אתם נמצאים בכל הקשור לתכנון ואפיון העבודה עם נתונים?",
+            "type": "radio",
+            "options": [
+              "עדיין לא הקדשנו מחשבה לצרכי הנתונים ולאופן שבו הנתונים ישרתו אותנו.",
+              "ברור לנו מהן השאלות שהיינו רוצים לברר בעזרת נתונים, ומהם צרכי הנתונים הנגזרים מהן",
+              "יש לנו תכנית פעולה סדורה שתאפשר לנו לענות על שאלות המפתח באמצעות נתונים"
+            ]
+          },
+          { "text": "עד כמה עובדים ומנהלים חשים בנוח לדון בשאלות מורכבות שעולות מתוך הנתונים ולבצע שינויים מתאימים?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" },
+          { "text": "עד כמה לדעתך הארגון משתף נתונים עם שותפים ותורמים כבסיס לשיח מקצועי ולמידה?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" },
+          { "text": "באיזו מידה צוותים ועובדים משתפים ביניהם נתונים לצורך העבודה השוטפת והלמידה הארגונית?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" },
+          { "text": "באיזו מידה השימוש בנתונים נתפס בארגון כדבר שגרתי המהווה חלק בלתי נפרד מהעבודה השוטפת, ובעל ערך ללמידה אישית, צוותית וארגונית?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" },
+          { "text": "באיזו מידה מנהלים מעודדים את העובדים להשתמש בנתונים בתהליכי העבודה וקבלת ההחלטות?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" },
+          { "text": "כמה מאנשי הצוות עובדים באופן שוטף עם נתונים בארגון?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" },
+          { "text": "באיזו מידה כל אחד מאנשי הצוות דואג שהנתונים שהוא אוסף או משתמש בהם יהיו נכונים ומלאים?", "type": "scale", "allowZero": true, "hint": "0=לא יודע/לא רלוונטי, 1=כלל לא, 5=במידה רבה מאוד" }
+        ]
+      },
+      {
+        "title": "אתיקה ומשילות נתונים",
+        "questions": [
+          { "text": "באיזו מידה את-ה מכיר-ה את ההנחיות והמגבלות החוקיות בנושאי אבטחת מידע והגנת הפרטיות?", "type": "scale", "hint": "1=כלל לא, 5=במידה רבה מאוד" },
+          {
+            "text": "כדי לשמור על עקרונות של שקיפות, אחריות והגנת הפרטיות בנתונים",
+            "type": "section",
+            "subQuestions": [
+              { "text": "אנחנו מספרים למוטבים איזה נתונים אנחנו אוספים עליהם ולמה אנחנו אוספים אותם.", "type": "checkbox" },
+              { "text": "אנחנו מקפידים לשמור על פרטיות המוטבים כאשר אנו אוספים נתונים ומשתמשים בהם", "type": "checkbox" },
+              { "text": "אנחנו מפעילים כלים ונהלים לאבטחת הנתונים הנאספים מפני פריצה, דליפה או גישה לא מורשית", "type": "checkbox" }
+            ]
+          }
+        ]
+      }
+    ];
+
+    // ====== STATE ======
+    let currentSectionIndex = 0;
+    let answers = {}; // id -> number (scale/radio), 1/0 (binary)
+
+    // ====== INIT ======
+    function init() {
+      renderQuestions();
+      updateProgress();
+    }
+
+    function startAssessment() {
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('progressContainer').style.display = 'block';
+      document.getElementById('navigationButtons').style.display = 'flex';
+      showSection(0);
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      assessmentData.forEach((section, sectionIndex) => {
+        const sectionCard = document.createElement('div');
+        sectionCard.className = 'section-card';
+        sectionCard.id = `section-${sectionIndex}`;
+        sectionCard.style.display = 'none';
+
+        const sectionTitle = document.createElement('div');
+        sectionTitle.className = 'section-title';
+        sectionTitle.innerHTML = `<span class="section-number">${sectionIndex + 1}</span>${section.title}`;
+        sectionCard.appendChild(sectionTitle);
+
+        section.questions.forEach((question, questionIndex) => {
+          const questionDiv = createQuestion(question, `${sectionIndex}-${questionIndex}`);
+          sectionCard.appendChild(questionDiv);
+        });
+
+        container.appendChild(sectionCard);
+      });
+    }
+
+    function createQuestion(question, id) {
+      const questionDiv = document.createElement('div');
+      questionDiv.className = 'question';
+
+      // "section" question (title + sub questions)
+      if (question.type === 'section' && question.subQuestions) {
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'question-text';
+        titleDiv.textContent = question.text;
+        questionDiv.appendChild(titleDiv);
+
+        if (question.hint) {
+          const hint = document.createElement('div');
+          hint.className = 'hint';
+          hint.innerHTML = `<strong>💡 טיפ:</strong> ${question.hint}`;
+          questionDiv.appendChild(hint);
         }
 
-        // Start Assessment
-        function startAssessment() {
-            document.getElementById('startScreen').style.display = 'none';
-            document.getElementById('progressContainer').style.display = 'block';
-            document.getElementById('navigationButtons').style.display = 'flex';
-            isAssessmentStarted = true;
-            showSection(0);
+        question.subQuestions.forEach((subQ, subIndex) => {
+          const subDiv = createQuestion(subQ, `${id}-${subIndex}`);
+          questionDiv.appendChild(subDiv);
+        });
+
+        return questionDiv;
+      }
+
+      const textDiv = document.createElement('div');
+      textDiv.className = 'question-text';
+      textDiv.textContent = question.text;
+      questionDiv.appendChild(textDiv);
+
+      // checkbox -> 2 buttons
+      if (question.type === 'checkbox') {
+        const binary = document.createElement('div');
+        binary.className = 'binary-container';
+
+        const yesBtn = document.createElement('button');
+        yesBtn.type = 'button';
+        yesBtn.className = 'binary-btn';
+        yesBtn.id = `bin-${id}-yes`;
+        yesBtn.textContent = 'קיים / כן';
+        yesBtn.onclick = () => setBinary(id, 1);
+
+        const noBtn = document.createElement('button');
+        noBtn.type = 'button';
+        noBtn.className = 'binary-btn';
+        noBtn.id = `bin-${id}-no`;
+        noBtn.textContent = 'לא קיים / לא';
+        noBtn.onclick = () => setBinary(id, 0);
+
+        binary.appendChild(yesBtn);
+        binary.appendChild(noBtn);
+        questionDiv.appendChild(binary);
+
+      } else if (question.type === 'scale') {
+        const scaleContainer = document.createElement('div');
+        scaleContainer.className = 'scale-container';
+
+        // allowZero => add "לא יודע/לא רלוונטי" (=0) button
+        if (question.allowZero) {
+          const naBtn = document.createElement('button');
+          naBtn.type = 'button';
+          naBtn.className = 'scale-button na';
+          naBtn.id = `scale-${id}-0`;
+          naBtn.textContent = 'לא יודע/לא רלוונטי';
+          naBtn.onclick = () => selectScale(id, 0);
+          scaleContainer.appendChild(naBtn);
         }
 
-        // Render all questions
-        function renderQuestions() {
-            const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'scale-button';
+          button.id = `scale-${id}-${i}`;
+          button.textContent = i;
+          button.onclick = () => selectScale(id, i);
+          scaleContainer.appendChild(button);
+        }
 
-            assessmentData.forEach((section, sectionIndex) => {
-                const sectionCard = document.createElement('div');
-                sectionCard.className = 'section-card';
-                sectionCard.id = `section-${sectionIndex}`;
-                sectionCard.style.display = 'none';
+        questionDiv.appendChild(scaleContainer);
 
-                const sectionTitle = document.createElement('div');
-                sectionTitle.className = 'section-title';
-                sectionTitle.innerHTML = `
-                    <span class="section-number">${sectionIndex + 1}</span>
-                    ${section.title}
-                `;
-                sectionCard.appendChild(sectionTitle);
+        const labels = document.createElement('div');
+        labels.className = 'scale-labels';
+        labels.innerHTML = '<span>כלל לא</span><span>במידה רבה מאוד</span>';
+        questionDiv.appendChild(labels);
 
-                section.questions.forEach((question, questionIndex) => {
-                    const questionDiv = createQuestion(question, `${sectionIndex}-${questionIndex}`);
-                    sectionCard.appendChild(questionDiv);
-                });
+      } else if (question.type === 'radio' && question.options) {
+        const radioContainer = document.createElement('div');
+        radioContainer.className = 'radio-container';
 
-                container.appendChild(sectionCard);
+        question.options.forEach((option, optIndex) => {
+          const radioOption = document.createElement('div');
+          radioOption.className = 'radio-option';
+          radioOption.id = `radio-${id}-${optIndex}`;
+          radioOption.onclick = () => selectRadio(id, optIndex);
+
+          const circle = document.createElement('div');
+          circle.className = 'radio-circle';
+
+          const label = document.createElement('span');
+          label.textContent = option;
+
+          radioOption.appendChild(circle);
+          radioOption.appendChild(label);
+          radioContainer.appendChild(radioOption);
+        });
+
+        questionDiv.appendChild(radioContainer);
+      }
+
+      if (question.hint) {
+        const hint = document.createElement('div');
+        hint.className = 'hint';
+        hint.innerHTML = `<strong>💡 טיפ:</strong> ${question.hint}`;
+        questionDiv.appendChild(hint);
+      }
+
+      return questionDiv;
+    }
+
+    // ====== HELPERS ======
+    function setScaleDisabled(id, disabled) {
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.getElementById(`scale-${id}-${i}`);
+        if (btn) btn.disabled = disabled;
+      }
+      const naBtn = document.getElementById(`scale-${id}-0`);
+      if (naBtn) naBtn.disabled = disabled;
+    }
+
+    function clearScaleSelection(id) {
+      for (let i = 0; i <= 5; i++) {
+        const btn = document.getElementById(`scale-${id}-${i}`);
+        if (btn) btn.classList.remove('selected');
+      }
+      delete answers[id];
+    }
+
+    // ====== Binary handler ======
+    function setBinary(id, value) {
+      answers[id] = value;
+
+      const yes = document.getElementById(`bin-${id}-yes`);
+      const no = document.getElementById(`bin-${id}-no`);
+      if (yes && no) {
+        yes.classList.remove('selected-yes');
+        no.classList.remove('selected-no');
+        if (value === 1) yes.classList.add('selected-yes');
+        if (value === 0) no.classList.add('selected-no');
+      }
+
+      // Special rule (כמו באקסל):
+      // בכלים ותשתיות -> "מערכות המידע בארגון" -> תת-שאלה 3 "לא יודע/לא רלוונטי"
+      // אם מסומן => מנקה ומנטרל את שני הדירוגים הקודמים
+      if (id === '1-2-2') {
+        const scaleA = '1-2-0';
+        const scaleB = '1-2-1';
+        if (value === 1) {
+          clearScaleSelection(scaleA);
+          clearScaleSelection(scaleB);
+          setScaleDisabled(scaleA, true);
+          setScaleDisabled(scaleB, true);
+        } else {
+          setScaleDisabled(scaleA, false);
+          setScaleDisabled(scaleB, false);
+        }
+      }
+
+      updateProgress();
+    }
+
+    function selectScale(id, value) {
+      for (let i = 0; i <= 5; i++) {
+        const button = document.getElementById(`scale-${id}-${i}`);
+        if (button) button.classList.remove('selected');
+      }
+      const selectedButton = document.getElementById(`scale-${id}-${value}`);
+      if (selectedButton) selectedButton.classList.add('selected');
+
+      answers[id] = value;
+
+      // if user rated one of the two "מערכות המידע" scales, turn off NA checkbox (id 1-2-2)
+      if (id === '1-2-0' || id === '1-2-1') {
+        // set NA to "לא" visually + value=0
+        if (answers['1-2-2'] === 1) {
+          setBinary('1-2-2', 0);
+        }
+      }
+
+      updateProgress();
+    }
+
+    function selectRadio(id, optionIndex) {
+      const container = document.getElementById(`radio-${id}-${optionIndex}`).parentElement;
+      const allOptions = container.querySelectorAll('.radio-option');
+      allOptions.forEach(opt => opt.classList.remove('selected'));
+
+      document.getElementById(`radio-${id}-${optionIndex}`).classList.add('selected');
+      answers[id] = optionIndex + 1; // score 1..N
+      updateProgress();
+    }
+
+    function showSection(index) {
+      const sections = document.querySelectorAll('.section-card');
+      sections.forEach((section, i) => section.style.display = i === index ? 'block' : 'none');
+
+      currentSectionIndex = index;
+
+      document.getElementById('prevBtn').style.display = index === 0 ? 'none' : 'inline-flex';
+      document.getElementById('nextBtn').style.display = index === assessmentData.length - 1 ? 'none' : 'inline-flex';
+      document.getElementById('finishBtn').style.display = index === assessmentData.length - 1 ? 'inline-flex' : 'none';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextSection() {
+      if (currentSectionIndex < assessmentData.length - 1) showSection(currentSectionIndex + 1);
+    }
+    function previousSection() {
+      if (currentSectionIndex > 0) showSection(currentSectionIndex - 1);
+    }
+
+    function updateProgress() {
+      const totalQuestions = getTotalQuestions();
+      const answeredQuestions = Object.values(answers).filter(v => v !== undefined).length;
+      const progress = totalQuestions === 0 ? 0 : Math.round((answeredQuestions / totalQuestions) * 100);
+
+      document.getElementById('progressText').textContent = `${progress}%`;
+      document.getElementById('progressFill').style.width = `${progress}%`;
+    }
+
+    function getTotalQuestions() {
+      let total = 0;
+      assessmentData.forEach(section => {
+        section.questions.forEach(question => {
+          if (question.type === 'section' && question.subQuestions) total += question.subQuestions.length;
+          else total++;
+        });
+      });
+      return total;
+    }
+
+    // ====== SCORING (כולל היפוך + allowZero לא נספר במקסימום) ======
+    function getQuestionMetaById(id) {
+      const parts = id.split('-').map(n => parseInt(n, 10));
+      const s = parts[0], q = parts[1], sub = parts.length === 3 ? parts[2] : null;
+      const question = assessmentData[s]?.questions?.[q];
+      if (!question) return null;
+      if (sub !== null) return question.subQuestions?.[sub] || null;
+      return question;
+    }
+
+    function calcScaleScore(value, meta) {
+      if (meta?.allowZero && value === 0) return { score: 0, max: 0, skipped: true };
+      if (value === 0) return { score: 0, max: 5, skipped: false };
+      if (meta?.reverse) return { score: (6 - value), max: 5, skipped: false };
+      return { score: value, max: 5, skipped: false };
+    }
+
+    function calculateScores() {
+      let totalScore = 0;
+      let maxScore = 0;
+      let categoryScores = {};
+
+      assessmentData.forEach((section, sectionIndex) => {
+        let sectionScore = 0;
+        let sectionMax = 0;
+
+        section.questions.forEach((question, questionIndex) => {
+          if (question.type === 'section' && question.subQuestions) {
+            question.subQuestions.forEach((subQ, subIndex) => {
+              const id = `${sectionIndex}-${questionIndex}-${subIndex}`;
+              const value = answers[id];
+
+              if (subQ.type === 'checkbox') {
+                const v = value ?? 0;
+                sectionScore += v;
+                sectionMax += 1;
+              } else if (subQ.type === 'scale') {
+                const v = value ?? (subQ.allowZero ? 0 : 0);
+                const res = calcScaleScore(v, subQ);
+                sectionScore += res.score;
+                sectionMax += res.max;
+              }
             });
-        }
+          } else {
+            const id = `${sectionIndex}-${questionIndex}`;
+            const value = answers[id];
 
-        // Create question element
-        function createQuestion(question, id) {
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-
-            if (question.type === 'section' && question.subQuestions) {
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'question-text';
-                titleDiv.textContent = question.text;
-                questionDiv.appendChild(titleDiv);
-
-                question.subQuestions.forEach((subQ, subIndex) => {
-                    const subDiv = createQuestion(subQ, `${id}-${subIndex}`);
-                    questionDiv.appendChild(subDiv);
-                });
-            } else {
-                const textDiv = document.createElement('div');
-                textDiv.className = 'question-text';
-                textDiv.textContent = question.text;
-                questionDiv.appendChild(textDiv);
-
-                if (question.type === 'checkbox') {
-                    const checkboxContainer = document.createElement('div');
-                    checkboxContainer.className = 'checkbox-container';
-                    checkboxContainer.onclick = () => toggleCheckbox(id);
-
-                    if (question.label) {
-                        const label = document.createElement('span');
-                        label.className = 'checkbox-label';
-                        label.textContent = question.label;
-                        checkboxContainer.appendChild(label);
-                    }
-
-                    const checkbox = document.createElement('div');
-                    checkbox.className = 'checkbox';
-                    checkbox.id = `checkbox-${id}`;
-
-                    checkboxContainer.appendChild(checkbox);
-                    questionDiv.appendChild(checkboxContainer);
-                } else if (question.type === 'scale') {
-                    const scaleContainer = document.createElement('div');
-                    scaleContainer.className = 'scale-container';
-
-                    for (let i = 1; i <= 5; i++) {
-                        const button = document.createElement('button');
-                        button.className = 'scale-button';
-                        button.id = `scale-${id}-${i}`;
-                        button.textContent = i;
-                        button.onclick = () => selectScale(id, i);
-                        scaleContainer.appendChild(button);
-                    }
-
-                    questionDiv.appendChild(scaleContainer);
-
-                    const labels = document.createElement('div');
-                    labels.className = 'scale-labels';
-                    labels.innerHTML = '<span>כלל לא</span><span>במידה רבה מאוד</span>';
-                    questionDiv.appendChild(labels);
-                } else if (question.type === 'radio' && question.options) {
-                    const radioContainer = document.createElement('div');
-                    radioContainer.className = 'radio-container';
-
-                    question.options.forEach((option, optIndex) => {
-                        const radioOption = document.createElement('div');
-                        radioOption.className = 'radio-option';
-                        radioOption.id = `radio-${id}-${optIndex}`;
-                        radioOption.onclick = () => selectRadio(id, optIndex);
-
-                        const circle = document.createElement('div');
-                        circle.className = 'radio-circle';
-
-                        const label = document.createElement('span');
-                        label.textContent = option;
-
-                        radioOption.appendChild(circle);
-                        radioOption.appendChild(label);
-                        radioContainer.appendChild(radioOption);
-                    });
-
-                    questionDiv.appendChild(radioContainer);
-                }
-
-                if (question.hint) {
-                    const hint = document.createElement('div');
-                    hint.className = 'hint';
-                    hint.innerHTML = `<strong>💡 טיפ:</strong> ${question.hint}`;
-                    questionDiv.appendChild(hint);
-                }
+            if (question.type === 'checkbox') {
+              const v = value ?? 0;
+              sectionScore += v;
+              sectionMax += 1;
+            } else if (question.type === 'scale') {
+              const v = value ?? (question.allowZero ? 0 : 0);
+              const res = calcScaleScore(v, question);
+              sectionScore += res.score;
+              sectionMax += res.max;
+            } else if (question.type === 'radio') {
+              const v = value ?? 0;
+              sectionScore += v;
+              sectionMax += question.options.length;
             }
+          }
+        });
 
-            return questionDiv;
+        categoryScores[section.title] = {
+          score: sectionScore,
+          max: sectionMax,
+          percentage: sectionMax > 0 ? Math.round((sectionScore / sectionMax) * 100) : 0
+        };
+
+        totalScore += sectionScore;
+        maxScore += sectionMax;
+      });
+
+      return {
+        total: totalScore,
+        max: maxScore,
+        percentage: maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0,
+        categories: categoryScores
+      };
+    }
+
+    // ====== MATURITY LEVELS (לפי האפיון): <=30 בסיסית, 31-69 מתפתחת, >=70 מתקדמת ======
+    function getMaturityLevelByPercent(pct) {
+      if (pct >= 70) {
+        return { level: "מתקדמת", color: "#52B788", emoji: "🟢",
+          description: "רמת בשלות מתקדמת: יש תשתית ותהליכי עבודה שמאפשרים שימוש עקבי בנתונים לצורך תכנון, ניהול ושיפור." };
+      }
+      if (pct >= 31) {
+        return { level: "מתפתחת", color: "#F77F00", emoji: "🟠",
+          description: "רמת בשלות מתפתחת: יש בסיס קיים, אך קיימים פערים משמעותיים. מומלץ להתמקד בשיפור ממוקד לפי ממדים חלשים." };
+      }
+      return { level: "בסיסית", color: "#D62828", emoji: "🔴",
+        description: "רמת בשלות בסיסית: זהו שלב טוב להנחת יסודות ברורים: תהליכים, אחריות, וכלים." };
+    }
+
+    function getDimensionFeedback(name, pct) {
+      const m = getMaturityLevelByPercent(pct);
+      // כאן אפשר בהמשך לחבר משובי האקסל המלאים פר-שאלה אם תרצי
+      return { ...m, feedback: m.description };
+    }
+
+    // ====== RESULTS ======
+    function showResults() {
+      const scores = calculateScores();
+      const maturity = getMaturityLevelByPercent(scores.percentage);
+
+      document.getElementById('questionsContainer').style.display = 'none';
+      document.getElementById('navigationButtons').style.display = 'none';
+      document.getElementById('progressContainer').style.display = 'none';
+
+      const resultsSection = document.getElementById('resultsSection');
+      resultsSection.classList.add('show');
+
+      document.getElementById('totalScore').textContent = `${scores.percentage}%`;
+
+      const levelBadge = document.getElementById('levelBadge');
+      levelBadge.textContent = `רמת בשלות כוללת: ${maturity.level}`;
+      levelBadge.style.background = `linear-gradient(135deg, ${maturity.color}, ${maturity.color}dd)`;
+      document.getElementById('levelDescription').textContent = maturity.description;
+
+      const categoriesContainer = document.getElementById('categoriesResults');
+      categoriesContainer.innerHTML = '';
+
+      const radarLabels = [];
+      const radarValues = [];
+
+      Object.entries(scores.categories).forEach(([name, data]) => {
+        const info = getDimensionFeedback(name, data.percentage);
+
+        radarLabels.push(name);
+        radarValues.push(data.percentage);
+
+        const item = document.createElement('div');
+        item.className = 'category-item';
+
+        item.innerHTML = `
+          <div class="category-header">
+            <span class="category-name">${name}</span>
+            <span class="category-score">${data.percentage}%</span>
+          </div>
+
+          <div class="category-meta">
+            <span class="pill">${info.emoji} בשלות ${info.level}</span>
+            <span class="pill">ניקוד: ${data.score} / ${data.max}</span>
+          </div>
+
+          <div class="category-bar">
+            <div class="category-fill" style="width: ${data.percentage}%"></div>
+          </div>
+
+          <div class="category-feedback">${info.feedback}</div>
+        `;
+
+        categoriesContainer.appendChild(item);
+      });
+
+      renderRadarChart('radarContainer', radarLabels, radarValues);
+
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ====== RADAR SVG (no external libs) ======
+    function renderRadarChart(containerId, labels, values) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const N = labels.length;
+      const size = 360;
+      const cx = size / 2;
+      const cy = size / 2;
+      const radius = 130;
+
+      const points = [];
+      for (let i = 0; i < N; i++) {
+        const angle = (-Math.PI / 2) + (2 * Math.PI * i / N);
+        const r = radius * (Math.max(0, Math.min(100, values[i])) / 100);
+        points.push([cx + r * Math.cos(angle), cy + r * Math.sin(angle)]);
+      }
+
+      const rings = [20, 40, 60, 80, 100];
+
+      const labelPos = [];
+      for (let i = 0; i < N; i++) {
+        const angle = (-Math.PI / 2) + (2 * Math.PI * i / N);
+        labelPos.push([cx + (radius + 28) * Math.cos(angle), cy + (radius + 28) * Math.sin(angle), angle]);
+      }
+
+      const polygonPoints = points.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+
+      const axes = [];
+      for (let i = 0; i < N; i++) {
+        const angle = (-Math.PI / 2) + (2 * Math.PI * i / N);
+        axes.push(`<line x1="${cx}" y1="${cy}" x2="${(cx + radius * Math.cos(angle))}" y2="${(cy + radius * Math.sin(angle))}" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>`);
+      }
+
+      const ringPolys = rings.map(pct => {
+        const r = radius * (pct / 100);
+        const ringPts = [];
+        for (let i = 0; i < N; i++) {
+          const angle = (-Math.PI / 2) + (2 * Math.PI * i / N);
+          ringPts.push(`${(cx + r * Math.cos(angle)).toFixed(1)},${(cy + r * Math.sin(angle)).toFixed(1)}`);
         }
+        return `<polygon points="${ringPts.join(' ')}" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>`;
+      }).join('');
 
-        // Toggle checkbox
-        function toggleCheckbox(id) {
-            const checkbox = document.getElementById(`checkbox-${id}`);
-            const isChecked = checkbox.classList.toggle('checked');
-            answers[id] = isChecked ? 1 : 0;
-            updateProgress();
-        }
+      const labelsSvg = labels.map((txt, i) => {
+        const [x, y, angle] = labelPos[i];
+        const anchor =
+          (Math.cos(angle) > 0.25) ? 'start' :
+          (Math.cos(angle) < -0.25) ? 'end' : 'middle';
+        return `<text x="${x}" y="${y}" fill="rgba(255,255,255,0.95)" font-size="12" font-weight="800" text-anchor="${anchor}">${escapeHtml(txt)}</text>`;
+      }).join('');
 
-        // Select scale value
-        function selectScale(id, value) {
-            // Clear previous selection
-            for (let i = 1; i <= 5; i++) {
-                const button = document.getElementById(`scale-${id}-${i}`);
-                if (button) button.classList.remove('selected');
-            }
-            
-            // Set new selection
-            const selectedButton = document.getElementById(`scale-${id}-${value}`);
-            if (selectedButton) selectedButton.classList.add('selected');
-            
-            answers[id] = value;
-            updateProgress();
-        }
+      const dots = points.map((p, i) => `
+        <circle cx="${p[0]}" cy="${p[1]}" r="4" fill="rgba(255,255,255,0.95)"/>
+        <text x="${p[0] + 6}" y="${p[1] - 6}" fill="rgba(255,255,255,0.95)" font-size="12" font-weight="900">${Math.round(values[i])}%</text>
+      `).join('');
 
-        // Select radio option
-        function selectRadio(id, optionIndex) {
-            const container = document.getElementById(`radio-${id}-${optionIndex}`).parentElement;
-            const allOptions = container.querySelectorAll('.radio-option');
-            
-            allOptions.forEach(opt => opt.classList.remove('selected'));
-            document.getElementById(`radio-${id}-${optionIndex}`).classList.add('selected');
-            
-            answers[id] = optionIndex + 1;
-            updateProgress();
-        }
+      container.innerHTML = `
+        <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="Radar chart">
+          <defs>
+            <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="rgba(0,0,0,0.25)"/>
+            </filter>
+          </defs>
+          ${ringPolys}
+          ${axes.join('')}
+          <polygon points="${polygonPoints}" fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.85)" stroke-width="2" filter="url(#shadow)"/>
+          ${dots}
+          ${labelsSvg}
+        </svg>
+      `;
+    }
 
-        // Show specific section
-        function showSection(index) {
-            const sections = document.querySelectorAll('.section-card');
-            sections.forEach((section, i) => {
-                section.style.display = i === index ? 'block' : 'none';
-            });
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
 
-            currentSectionIndex = index;
+    function printResults() { window.print(); }
 
-            // Update navigation buttons
-            document.getElementById('prevBtn').style.display = index === 0 ? 'none' : 'inline-flex';
-            document.getElementById('nextBtn').style.display = index === assessmentData.length - 1 ? 'none' : 'inline-flex';
-            document.getElementById('finishBtn').style.display = index === assessmentData.length - 1 ? 'inline-flex' : 'none';
+    function exportResults() {
+      const scores = calculateScores();
+      const overall = getMaturityLevelByPercent(scores.percentage);
 
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+      let csvContent = "\uFEFF";
+      csvContent += "תוצאות אבחון בשלות דאטה (ארגון חברתי)\n\n";
+      csvContent += `תאריך,${new Date().toLocaleDateString('he-IL')}\n`;
+      csvContent += `ציון כולל,${scores.percentage}%\n`;
+      csvContent += `רמת בשלות כוללת,${overall.level}\n\n`;
+      csvContent += "ממד,ציון,רמת בשלות\n";
 
-        // Navigate to next section
-        function nextSection() {
-            if (currentSectionIndex < assessmentData.length - 1) {
-                showSection(currentSectionIndex + 1);
-            }
-        }
+      Object.entries(scores.categories).forEach(([name, data]) => {
+        const info = getMaturityLevelByPercent(data.percentage);
+        csvContent += `${name},${data.percentage}%,${info.level}\n`;
+      });
 
-        // Navigate to previous section
-        function previousSection() {
-            if (currentSectionIndex > 0) {
-                showSection(currentSectionIndex - 1);
-            }
-        }
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `אבחון_בשלות_דאטה_ארגון_חברתי_${new Date().toLocaleDateString('he-IL')}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
-        // Update progress bar
-        function updateProgress() {
-            const totalQuestions = getTotalQuestions();
-            const answeredQuestions = Object.keys(answers).length;
-            const progress = Math.round((answeredQuestions / totalQuestions) * 100);
+    function restartAssessment() {
+      if (!confirm('האם להתחיל מחדש? כל התשובות יימחקו.')) return;
 
-            document.getElementById('progressText').textContent = `${progress}%`;
-            document.getElementById('progressFill').style.width = `${progress}%`;
-        }
+      answers = {};
+      currentSectionIndex = 0;
 
-        // Get total number of questions
-        function getTotalQuestions() {
-            let total = 0;
-            assessmentData.forEach(section => {
-                section.questions.forEach(question => {
-                    if (question.type === 'section' && question.subQuestions) {
-                        total += question.subQuestions.length;
-                    } else {
-                        total++;
-                    }
-                });
-            });
-            return total;
-        }
+      document.getElementById('resultsSection').classList.remove('show');
+      document.getElementById('startScreen').style.display = 'block';
+      document.getElementById('questionsContainer').style.display = 'block';
+      document.getElementById('progressContainer').style.display = 'none';
+      document.getElementById('navigationButtons').style.display = 'none';
 
-        // Calculate scores
-        function calculateScores() {
-            let totalScore = 0;
-            let maxScore = 0;
-            let categoryScores = {};
+      document.querySelectorAll('.scale-button').forEach(btn => btn.classList.remove('selected'));
+      document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+      document.querySelectorAll('.binary-btn').forEach(btn => {
+        btn.classList.remove('selected-yes');
+        btn.classList.remove('selected-no');
+      });
+      document.querySelectorAll('.scale-button').forEach(btn => btn.disabled = false);
 
-            assessmentData.forEach((section, sectionIndex) => {
-                let sectionScore = 0;
-                let sectionMax = 0;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-                section.questions.forEach((question, questionIndex) => {
-                    if (question.type === 'section' && question.subQuestions) {
-                        question.subQuestions.forEach((subQ, subIndex) => {
-                            const id = `${sectionIndex}-${questionIndex}-${subIndex}`;
-                            const value = answers[id] || 0;
-                            
-                            if (subQ.type === 'checkbox') {
-                                sectionScore += value;
-                                sectionMax += 1;
-                            } else if (subQ.type === 'scale') {
-                                sectionScore += value;
-                                sectionMax += 5;
-                            }
-                        });
-                    } else {
-                        const id = `${sectionIndex}-${questionIndex}`;
-                        const value = answers[id] || 0;
-                        
-                        if (question.type === 'checkbox') {
-                            sectionScore += value;
-                            sectionMax += 1;
-                        } else if (question.type === 'scale') {
-                            sectionScore += value;
-                            sectionMax += 5;
-                        } else if (question.type === 'radio') {
-                            // Radio options score based on selection (1, 2, or 3)
-                            sectionScore += value;
-                            sectionMax += question.options.length;
-                        }
-                    }
-                });
-
-                categoryScores[section.title] = {
-                    score: sectionScore,
-                    max: sectionMax,
-                    percentage: sectionMax > 0 ? Math.round((sectionScore / sectionMax) * 100) : 0
-                };
-
-                totalScore += sectionScore;
-                maxScore += sectionMax;
-            });
-
-            return {
-                total: totalScore,
-                max: maxScore,
-                percentage: Math.round((totalScore / maxScore) * 100),
-                categories: categoryScores
-            };
-        }
-
-        // Determine maturity level
-        function getMaturityLevel(percentage) {
-            if (percentage >= 80) {
-                return {
-                    level: "מתקדמת",
-                    description: "הרשות שלכם נמצאת ברמת בשלות מתקדמת! יש לכם תשתית מצוינת לעבודה מבוססת נתונים. המשיכו לחדש ולהוביל.",
-                    color: "#52B788"
-                };
-            } else if (percentage >= 60) {
-                return {
-                    level: "מפותחת",
-                    description: "הרשות בדרך הנכונה! יש בסיס טוב ויש מקום לשיפור בתחומים ספציפיים כדי למקסם את הפוטנציאל.",
-                    color: "#00B4D8"
-                };
-            } else if (percentage >= 40) {
-                return {
-                    level: "מתפתחת",
-                    description: "הרשות בתהליך התפתחות. ישנם תחומים חזקים לצד אתגרים שדורשים התייחסות. מומלץ להתמקד בחיזוק התשתיות והתהליכים.",
-                    color: "#F77F00"
-                };
-            } else {
-                return {
-                    level: "התחלתית",
-                    description: "הרשות בתחילת המסע. זה הזמן המושלם להתחיל לבנות תשתית לעבודה מבוססת נתונים. כל צעד קדימה הוא משמעותי!",
-                    color: "#D62828"
-                };
-            }
-        }
-
-        // Show results
-        function showResults() {
-            const scores = calculateScores();
-            const maturityLevel = getMaturityLevel(scores.percentage);
-
-            // Hide questions and navigation
-            document.getElementById('questionsContainer').style.display = 'none';
-            document.getElementById('navigationButtons').style.display = 'none';
-            document.getElementById('progressContainer').style.display = 'none';
-
-            // Show results section
-            const resultsSection = document.getElementById('resultsSection');
-            resultsSection.classList.add('show');
-
-            // Update total score
-            document.getElementById('totalScore').textContent = `${scores.percentage}%`;
-
-            // Update maturity level
-            const levelBadge = document.getElementById('levelBadge');
-            levelBadge.textContent = `רמת בשלות: ${maturityLevel.level}`;
-            levelBadge.style.background = `linear-gradient(135deg, ${maturityLevel.color}, ${maturityLevel.color}dd)`;
-
-            document.getElementById('levelDescription').textContent = maturityLevel.description;
-
-            // Update category scores
-            const categoriesContainer = document.getElementById('categoriesResults');
-            categoriesContainer.innerHTML = '';
-
-            Object.entries(scores.categories).forEach(([name, data]) => {
-                const categoryItem = document.createElement('div');
-                categoryItem.className = 'category-item';
-                categoryItem.innerHTML = `
-                    <div class="category-header">
-                        <span class="category-name">${name}</span>
-                        <span class="category-score">${data.percentage}%</span>
-                    </div>
-                    <div class="category-bar">
-                        <div class="category-fill" style="width: ${data.percentage}%"></div>
-                    </div>
-                `;
-                categoriesContainer.appendChild(categoryItem);
-            });
-
-            // Scroll to results
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Print results
-        function printResults() {
-            window.print();
-        }
-
-        // Export results to Excel
-        function exportResults() {
-            const scores = calculateScores();
-            const maturityLevel = getMaturityLevel(scores.percentage);
-
-            // Create CSV content
-            let csvContent = "\uFEFF"; // BOM for Hebrew
-            csvContent += "תוצאות אבחון בשלות דאטה\n\n";
-            csvContent += `תאריך,${new Date().toLocaleDateString('he-IL')}\n`;
-            csvContent += `ציון כולל,${scores.percentage}%\n`;
-            csvContent += `רמת בשלות,${maturityLevel.level}\n\n`;
-            csvContent += "קטגוריה,ציון\n";
-
-            Object.entries(scores.categories).forEach(([name, data]) => {
-                csvContent += `${name},${data.percentage}%\n`;
-            });
-
-            // Create download link
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `אבחון_בשלות_דאטה_${new Date().toLocaleDateString('he-IL')}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Restart assessment
-        function restartAssessment() {
-            if (confirm('האם אתה בטוח שברצונך להתחיל מחדש? כל התשובות יימחקו.')) {
-                answers = {};
-                currentSectionIndex = 0;
-                isAssessmentStarted = false;
-
-                // Reset UI
-                document.getElementById('resultsSection').classList.remove('show');
-                document.getElementById('startScreen').style.display = 'block';
-                document.getElementById('questionsContainer').style.display = 'block';
-                document.getElementById('progressContainer').style.display = 'none';
-                document.getElementById('navigationButtons').style.display = 'none';
-
-                // Clear all selections
-                document.querySelectorAll('.checkbox').forEach(cb => cb.classList.remove('checked'));
-                document.querySelectorAll('.scale-button').forEach(btn => btn.classList.remove('selected'));
-                document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
-
-                // Reset progress
-                updateProgress();
-
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
