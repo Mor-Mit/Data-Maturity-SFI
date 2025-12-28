@@ -605,7 +605,7 @@
         "title": "מטרות, יעדים ושאלות",
         "questions": [
           {
-            "text": "האם יש לארגון יש תיאוריית שינוי סדורה, שבה מנוסחים באופן ברור ומוסכם",
+            "text": "האם לארגון יש תיאוריית שינוי סדורה, שבה מנוסחים באופן ברור ומוסכם",
             "type": "section",
             "subQuestions": [
               { "text": "מטרות הפעילות", "type": "checkbox", "hint": "מטרות הן הדבר שהתכנית מבקשת להשיג - החזון הגדול" },
@@ -847,14 +847,14 @@
         yesBtn.type = 'button';
         yesBtn.className = 'binary-btn';
         yesBtn.id = `bin-${id}-yes`;
-        yesBtn.textContent = 'קיים / כן';
+        yesBtn.textContent = 'קיים ';
         yesBtn.onclick = () => setBinary(id, 1);
 
         const noBtn = document.createElement('button');
         noBtn.type = 'button';
         noBtn.className = 'binary-btn';
         noBtn.id = `bin-${id}-no`;
-        noBtn.textContent = 'לא קיים / לא';
+        noBtn.textContent = 'לא קיים ';
         noBtn.onclick = () => setBinary(id, 0);
 
         binary.appendChild(yesBtn);
